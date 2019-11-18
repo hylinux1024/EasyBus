@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".demo.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/registerBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/unregisterBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Unregister"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/registerBtn" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/easyPostBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Post"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/unregisterBtn" />
+</androidx.constraintlayout.widget.ConstraintLayout>
