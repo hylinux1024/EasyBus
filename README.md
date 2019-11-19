@@ -205,6 +205,13 @@ private void unsubscribe(Object subscriber, Class<?> eventType) {
 ```
 在 `unsubscribe` 方法中将订阅者信息从订阅者列表中移除，就完成了退订功能。
 
+#### 总结
+
+通过 `EasyBus` 组件的实现逻辑，对 `EventBus` 的核心原理有一个整体的认识。
+首先，通过注册观察者时通过反射解析出观察者的回调方法和事件类型实现注册；
+然后 `post` 消息时，通过事件类型查询到对应的观察者列表执行消息传递；
+最后就是取消注册操作，从观察者列表中删除。
+
 #### 引用
 
 - https://github.com/greenrobot/EventBus
