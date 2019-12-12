@@ -5,8 +5,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.easybus.EasyBus
 import com.github.easybus.Logger
-import com.github.easybus.MyEventBusIndex
 import com.github.easybus.R
+import com.gitlab.annotation.EasySubscribe
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.greenrobot.eventbus.EventBus
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 //        EasyBus.getInstance().register(this)
-        EventBus.builder().addIndex(MyEventBusIndex()).installDefaultEventBus()
+//        EventBus.builder().addIndex(MyEventBusIndex()).installDefaultEventBus()
         EventBus.getDefault().register(this)
         fab.setOnClickListener { view ->
             //            EasyBus.getInstance().post(MessageEvent("message from action"))
@@ -50,13 +50,15 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+
+    @EasySubscribe
     fun onEventUpdate(event: MessageEvent) {
         Logger.i("onEventUpdate:" + event.message)
         Toast.makeText(this, "onEventUpdate: ${event.message}", Toast.LENGTH_SHORT).show()
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+//    @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEventUpdate2(event: MessageEvent) {
         Logger.i("onEventUpdate2: " + event.message)
         Toast.makeText(this, "onEventUpdate2: ${event.message}", Toast.LENGTH_SHORT).show()
