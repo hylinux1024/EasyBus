@@ -1,11 +1,20 @@
-package com.github.easybus;
+package com.gitlab.easybuslib;
+
+import com.gitlab.annotation.SubscriberMethod;
+import com.gitlab.annotation.Subscription;
+import com.gitlab.annotation.meta.SubscriberInfo;
+import com.gitlab.annotation.meta.SubscriberInfoIndex;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Stream;
 
 public class EasyBus {
 
@@ -23,6 +32,10 @@ public class EasyBus {
      */
     private final Map<Object, List<Class<?>>> eventTypeBySubscriber;
 
+    /**
+     * 编译期间生成订阅者索引，通过订阅者 Class 类获取到 @EasySubscribe 的方法
+     */
+    private List<SubscriberInfoIndex> subscriberInfoIndexList;
 
     private EasyBus() {
         eventTypeBySubscriber = new HashMap<>();
@@ -40,24 +53,59 @@ public class EasyBus {
         return Holder.instance;
     }
 
+    /**
+     * 添加订阅者索引
+     *
+     * @param subscriberInfoIndex
+     */
+    public void addIndex(SubscriberInfoIndex subscriberInfoIndex) {
+        if (subscriberInfoIndexList == null) {
+            subscriberInfoIndexList = new ArrayList<>();
+        }
+        subscriberInfoIndexList.add(subscriberInfoIndex);
+    }
+
     public void register(Object subscriber) {
         Class<?> subscriberClass = subscriber.getClass();
-        Method[] methods = subscriberClass.getDeclaredMethods();
         List<SubscriberMethod> subscriberMethods = new ArrayList<>();
-        for (Method method : methods) {
-            Class<?>[] parameterTypes = method.getParameterTypes();
-            if (parameterTypes.length != 1) {
-                continue;
+        //使用反射获取 onEvent 方法
+        if (subscriberInfoIndexList == null) {
+            Method[] methods = subscriberClass.getDeclaredMethods();
+            for (Method method : methods) {
+                Class<?>[] parameterTypes = method.getParameterTypes();
+                if (parameterTypes.length != 1) {
+                    continue;
+                }
+                // 这里可以修改成使用反射获取，这样就不需要求方法以 onEvent 开头
+                if (method.getName().startsWith("onEvent")) {
+                    subscriberMethods.add(new SubscriberMethod(method, parameterTypes[0]));
+                }
             }
-            if (method.getName().startsWith("onEvent")) {
-                subscriberMethods.add(new SubscriberMethod(method, parameterTypes[0]));
-            }
+        } else {
+            //使用注解解析器获取 onEvent 方法
+            subscriberMethods = findSubscriberMethods(subscriberClass);
         }
         synchronized (this) {
             for (SubscriberMethod method : subscriberMethods) {
                 subscribe(subscriber, method);
             }
         }
+    }
+
+    /**
+     * 从索引中获取订阅者方法信息
+     *
+     * @param subscriberClass
+     * @return
+     */
+    private List<SubscriberMethod> findSubscriberMethods(Class<?> subscriberClass) {
+        List<SubscriberMethod> subscriberMethods = new ArrayList<>();
+        for (SubscriberInfoIndex subscriberIndex : subscriberInfoIndexList) {
+            SubscriberInfo subscriberInfo = subscriberIndex.getSubscriberInfo(subscriberClass);
+            List<SubscriberMethod> methodList = Arrays.asList(subscriberInfo.getSubscriberMethods());
+            subscriberMethods.addAll(methodList);
+        }
+        return subscriberMethods;
     }
 
     private void subscribe(Object subscriber, SubscriberMethod method) {

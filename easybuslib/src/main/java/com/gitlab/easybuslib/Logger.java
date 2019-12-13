@@ -1,4 +1,4 @@
-package com.github.easybus;
+package com.gitlab.easybuslib;
 
 import android.util.Log;
 

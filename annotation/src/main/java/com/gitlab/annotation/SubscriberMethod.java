@@ -1,4 +1,4 @@
-package com.github.easybus;
+package com.gitlab.annotation;
 
 import java.lang.reflect.Method;
 
@@ -6,8 +6,8 @@ import java.lang.reflect.Method;
  * 封装订阅者的通知方法（onEvent方法）以及方法中参数的（事件）类型（Class类型参数）
  */
 public class SubscriberMethod {
-    final Method method;
-    final Class<?> eventType;
+    public final Method method;
+    public final Class<?> eventType;
 
     public SubscriberMethod(Method method, Class<?> eventType) {
         this.method = method;

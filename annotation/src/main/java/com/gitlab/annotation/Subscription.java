@@ -1,11 +1,11 @@
-package com.github.easybus;
+package com.gitlab.annotation;
 
 /**
  * 封装订阅者的信息，包括订阅者的实例（通过EasyBus注册的接口）和通知方法
  */
-final class Subscription {
-    final Object subscriber;
-    final SubscriberMethod subscriberMethod;
+public final class Subscription {
+    public final Object subscriber;
+    public final SubscriberMethod subscriberMethod;
 
     public Subscription(Object subscriber, SubscriberMethod subscriberMethod) {
         this.subscriber = subscriber;

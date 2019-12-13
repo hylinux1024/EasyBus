@@ -1,2 +1,2 @@
-include ':app', ':annotation', ':annotationProcessor'
+include ':app', ':annotation', ':annotationProcessor', ':easybuslib'
 rootProject.name = 'EasyBus'
