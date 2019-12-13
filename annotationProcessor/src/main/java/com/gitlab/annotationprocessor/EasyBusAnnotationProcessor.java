@@ -62,9 +62,9 @@ public class EasyBusAnnotationProcessor extends AbstractProcessor {
         // 遍历要解析的注解
         for (TypeElement annotation : annotations) {
             messager.printMessage(Diagnostic.Kind.NOTE, "annotation:" + annotation.getSimpleName());
-            // 获取自定义的注解对象
+            // 获取被注解标记的对象
             Set<? extends Element> elements = env.getElementsAnnotatedWith(annotation);
-            // Element 是抽象的注解对象包括：包名、类、接口、方法、构造方法等
+            // Element 是接口，是对包括：包名、类、接口、方法、构造方法等的抽象
             for (Element element : elements) {
                 // 自定义注解 EasySubscribe 是作用在方法上的
                 // 所以检查一下是否是 ExecutableElement 对象
