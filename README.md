@@ -6,9 +6,9 @@ Github：https://github.com/hylinux1024
 
 
 《100行代码拆解EventBus核心逻辑》系列文章
-- https://juejin.im/post/5dd2899ff265da0bcf668f38
-- https://juejin.im/post/5def0905518825121e37ee66
-- https://juejin.im/post/5df4e5696fb9a01648716be7
+- [100行代码拆解EventBus核心逻辑(一)](https://juejin.im/post/5dd2899ff265da0bcf668f38)
+- [100行代码拆解EventBus核心逻辑(二)](https://juejin.im/post/5def0905518825121e37ee66)
+- [100行代码拆解EventBus核心逻辑(三)](https://juejin.im/post/5df4e5696fb9a01648716be7)
 
 `EventBus` 作为一个基础的消息传递组件，了解其核心实现原理是日常开发工作之外需要做的必修课。本系列希望通过自己实现一个类似的消息传递组件 `EasyBus` 来理解 `EventBus` 的核心实现原理。
 
